@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EMPLOYEE DATA MANAGEMENT</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+</head>
+<body>
+​
+<div class="container">
+    <div class="jumbotron indexJumbo" style="background-color: black">
+        <h1 class="text-center" style="color: white">Employee Data Managment</h1>
+        <h4 class="text-center" style="color: white"> A Comprehensive Directory of Employee Billable Hours</h4>
+        <br>
+    </div>
+​
+​
+    <div class="row" >
+        <div class="col-lg-12">
+            <br>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Current Employees</h3>
+            </div>
+​
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Employee Name
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        </th>
+                        <th>Role
+                            <span class="glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+                        </th>
+                        <th>Start Date
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        </th>
+                        <th>Months Worked
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        </th>
+                        <th>Monthly Rate
+                            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                        </th>
+                        <th>Total Billed
+                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                        </th>
+                    </tr>
+                    </thead>
+​
+​
+                </table>
+            </div>
+        </div>
+        <style>
+            .row{
+                margin: 0;
+            };
+        </style>
+    </div>
+    <br>
+​
+​
+​
+    <div class="panel panel-primary">
+        <div class="panel-heading">Current Employees</div>
+        <form>
+            <div class="form-group">
+                <label for="employeeName">Employee Name</label>
+                <input type="text" class="form-control" id="empName" placeholder="Name">
+            </div>
+​
+            <div class="form-group">
+                <label for="employeeRole">Role</label>
+                <input type="text" class="form-control" id="empRole" placeholder="Role">
+            </div>
+​
+            <div class="form-group">
+                <label for="startDate">Start Date (DD/MM/YY - ex: 01/01/91)</label>
+                <input type="text" class="form-control" id="empStart" placeholder="Start Date">
+            </div>
+​
+            <div class="form-group">
+                <label for="employeeRate">Monthly Rate</label>
+                <input type="text" class="form-control" id="monthlyRate" placeholder="Monthly Rate">
+            </div>
+​
+            <button type="submit" class="btn btn-default" id="subButton">Submit</button>
+        </form>
+    </div>
+​
+​
+    <style>
+        .jumbotron {
+            margin-bottom: 10px;
+            background-image: url(http://www.uglydogbooks.com/wp-content/uploads/2014/04/books.jpg);
+            background-position: 0% 25%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: white;
+            text-shadow: gray 0.3em 0.3em 0.3em;
+        }
+​
+        .table-responsive{
+            margin-left: 25px;
+        }
+        .form-group{
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top:10px;
+        }
+        #subButton{
+            margin: 10px;
+            margin-left: 30px;
+            background-color: #2f79b9;
+            color: white ;
+        }
+    </style>
+</div>
+​
+​
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+​
+​
+<script src="jquery-2.2.1.js"></script>
+<script>
+​
+    $(function () { //<shorthand for $(document).ready(...
+​
+​
+        var currentEmployees = $(".table"); //grabbing a jQuery reference to the table
+        var fireBase = new Firebase("https://employeedata.firebaseio.com/"); //new Firebase to the root directory
+​
+​
+​
+​
+        $("#subButton").on("click", function (e) {//when the submit button is clicked...
+​
+            var userId = $("#empName").val();//get the employee name...
+​
+            var userFB = new Firebase(fireBase + userId);//and create a new Firebase reference by appending the name to the link created to the root directory
+​
+            var role = $("#empRole").val(),//grab the other necessary values: role, start date, and rate
+                    start = $("#empStart").val(),
+                    rate = $("#monthlyRate").val();
+​
+            userFB.set({//set the variable we collected
+                name: userId,
+                role: role,
+                start: start,
+                rate: rate
+            });
+​
+        });
+​
+        fireBase.on("child_added", function (snapshot) {//listen for child added
+​
+            var snapValue = snapshot.val();
+            var newRow = $("<tr>");//we creat a new row for the new item
+            newRow.attr({id: snapValue.name});//created a new row and gave it an ID set to the user's name
+​
+​
+            //calculating the months worked and the total billed based on the start date and rate
+            var thenYear = new Date(snapValue.start).getFullYear();
+            var thenMonth = new Date(snapValue.start).getMonth();
+            var nowYear = new Date().getFullYear();
+            var nowMonth = new Date().getMonth();
+            var months = ((nowYear - thenYear) * 12) + (nowMonth - thenMonth);
+            var total = months * snapValue.rate;
+​
+​
+            //here an array of arrays is created, and a function is called on each subarray using Javascripts forEach looping function, which is referred to within the function as 'snapItem'
+            [[snapValue.name, "name"], [snapValue.role, "role"], [snapValue.start, "start"], [months, "months"], [snapValue.rate, "rate"], [total, "total"]].forEach(function (snapItem) {
+                var newRowItem = $("<td>"); //we creat a new cell to be added to the row we created above
+                newRowItem.attr({class: snapItem[1]});//we set a class by referring to the 2nd element of each subarray, i.e., "name", "role", etc.
+​
+                newRowItem.on("click", function (e) { //we set the click event on each cell, so it can later be edited
+​
+                    var currentValue = $(this).val();
+                    var userName = $(this).parent().attr('id');//above we gave the row an id, which we grab here by referring to the cells parent
+​
+                    var pendingInput = $("<input>");//create an input field to enable editing
+                    //pendingInput.val(currentValue);
+                    $(this).html(pendingInput);//put the input in the cell that was clicked on
+                    pendingInput.on("keypress", function (e) {
+                        if (e.keyCode == 13) {//when the user hits ENTER while focused on the input
+                            var newValue = $(e.target).val();//grab the input's value
+                            var item = $(e.target).parent().attr("class");//grab the inputs class, which identifies it as a "name", "role", etc.
+                            fireBase.child(userName).child(item).set(newValue);//using 1) the ID of the row, which we set previously to the users name, and 2) the column's class which we grabbed directly in line above, we put together a link to the appropriate firebase location, e.g., originalFirebase/Bob/role, and set its new value based on input
+                            fireBase.child(userName).child(item).on("value", function (snap) {//we listen to that value
+                                var newVal = snap.val();
+                                debugger
+                                newRowItem.html(newVal);//the value is changed, we are notified, and we grab the new value and place it in our cell. html function clears out the html, so that the input field is cleared and the new value takes its place
+​
+                            })
+                        }
+​
+                    })
+                    $(this).off();//remove the click event from the cell after it is clicked, so that the next click doesn't create another input field but instead simply places your cursor in the one just created
+​
+                })
+​
+                newRowItem.text(snapItem[0]);//referring to the subarrays again, it grabs the first element to use as the value of that cell
+                newRow.append(newRowItem);//the cells are added to the row
+            });
+​
+            currentEmployees.append(newRow);//the row is added to the table
+​
+        });
+​
+    })
+​
+​
+​
+</script>
+​
+</body>
+</html>

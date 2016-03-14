@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<img src="assets/images/header.jpg" alt="">
+		</div>
+		<div id="schedule">
+			<h1>Current Train Schedule</h1>
+			<table>
+				<tr>
+					<th>Train Name</th>
+					<th>Destination</th>
+					<th>Frequency(min)</th>
+					<th>Arrival</th>
+					<th>Minutes Away</th>
+					<th>Next Arrival</th>
+				</tr>
+			<tr>
+				<td>New Jersey Express</td>
+				<td>East Rutherford</td>
+				<td>5 min</td>
+				<td> 12:30 PM</td>
+				<td> 5 min</td>
+				<td> 10 min</td>
+			</tr>
+			</table>
+		</div>
+		<div id="search">
+			<h2>Add Train</h2>
+			<h3>Train Name</h3>
+			<input id="train-name" placeholder="Train Name:"></input>
+			<h3>Destination</h3>
+			<input id="destination" placeholder="Destination:"></input>
+			<h3>First Train Time</h3>
+			<input id="first train" placeholder="Time:"></input>
+			<h3>Frequency(min)</h3>
+			<input id="frequency" placeholder="Frequency:"></input>
+			<button id="submit">Submit</button>
+		</div>
+	</div>
+	<script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
+	<script src="assets/javascript/file.js"></script>
+</body>
+</html>
