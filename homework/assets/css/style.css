@@ -5,17 +5,17 @@ body {
 	list-style-type: none;
 }
 h1 {
-	font-family: ;
+	font-family: 'Josefin Slab', serif;
 	font-size: 35px ;
 	color: gray;
 }
 h2 {
-	font-family: ;
+	font-family: 'Josefin Slab', serif;
 	font-size: 30px;
 	color: gray;
 }
 h3 {
-	font-family: ;
+	font-family: 'Josefin Slab', serif;
 	font-size: 20px;
 	color: gray;
 }
@@ -23,24 +23,14 @@ h3 {
 	width: 1024px;
 	margin: 0px auto;
 }
-table, th, td {
-	border-collapse: collapse;
-	border: solid 1px black;
-}
-th, td {
-	font-size: 20px;
+#schedule {
 	padding: 10px;
-	text-align: left;
+	border-style: outset;
 }
-
-table, tr:nth-child(odd) {
-   background-color:lightblue;
-   color: white;
-}
-table, tr:nth-child(even) {
-	width: 100%;
-	background-color: lightgray;
-    color: black;
+#search {
+	margin: 5px 0px 10px 0px;
+	padding: 10px;
+	border-style: outset;
 }
 #search input {
 	width: 100%;
@@ -52,6 +42,26 @@ table, tr:nth-child(even) {
 	height: 30px;
 	margin: 10px 0px 10px 0px;
 	border: none;
+}
+table, th, td {
+	border-collapse: collapse;
+	border: solid 1px black;
+	font-family: 'BenchNine', sans-serif;
+}
+th, td {
+	font-size: 25px;
+	padding: 10px;
+	text-align: left;
+}
+
+table, tr:nth-child(odd) {
+   background-color:#3da1ff;
+   color: white;
+}
+table, tr:nth-child(even) {
+	width: 100%;
+	background-color: #d9d9d9;
+    color: black;
 }
 #submit:hover {
 	background-color: lightblue;
