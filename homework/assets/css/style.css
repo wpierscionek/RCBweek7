@@ -5,6 +5,7 @@ body {
 	list-style-type: none;
 }
 h1 {
+	float: left;
 	font-family: 'Josefin Slab', serif;
 	font-size: 35px ;
 	color: gray;
@@ -22,6 +23,10 @@ h3 {
 #container {
 	width: 1024px;
 	margin: 0px auto;
+}
+#date {
+	float: left;
+	margin-left: 200px;
 }
 #schedule {
 	padding: 10px;
