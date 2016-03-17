@@ -176,32 +176,8 @@
             [[snapValue.name, "name"], [snapValue.role, "role"], [snapValue.start, "start"], [months, "months"], [snapValue.rate, "rate"], [total, "total"]].forEach(function (snapItem) {
                 var newRowItem = $("<td>"); //we creat a new cell to be added to the row we created above
                 newRowItem.attr({class: snapItem[1]});//we set a class by referring to the 2nd element of each subarray, i.e., "name", "role", etc.
-​
-                newRowItem.on("click", function (e) { //we set the click event on each cell, so it can later be edited
-​
-                    var currentValue = $(this).val();
-                    var userName = $(this).parent().attr('id');//above we gave the row an id, which we grab here by referring to the cells parent
-​
-                    var pendingInput = $("<input>");//create an input field to enable editing
-                    //pendingInput.val(currentValue);
-                    $(this).html(pendingInput);//put the input in the cell that was clicked on
-                    pendingInput.on("keypress", function (e) {
-                        if (e.keyCode == 13) {//when the user hits ENTER while focused on the input
-                            var newValue = $(e.target).val();//grab the input's value
-                            var item = $(e.target).parent().attr("class");//grab the inputs class, which identifies it as a "name", "role", etc.
-                            fireBase.child(userName).child(item).set(newValue);//using 1) the ID of the row, which we set previously to the users name, and 2) the column's class which we grabbed directly in line above, we put together a link to the appropriate firebase location, e.g., originalFirebase/Bob/role, and set its new value based on input
-                            fireBase.child(userName).child(item).on("value", function (snap) {//we listen to that value
-                                var newVal = snap.val();
-                                debugger
-                                newRowItem.html(newVal);//the value is changed, we are notified, and we grab the new value and place it in our cell. html function clears out the html, so that the input field is cleared and the new value takes its place
-​
-                            })
-                        }
-​
-                    })
-                    $(this).off();//remove the click event from the cell after it is clicked, so that the next click doesn't create another input field but instead simply places your cursor in the one just created
-​
-                })
+
+                
 ​
                 newRowItem.text(snapItem[0]);//referring to the subarrays again, it grabs the first element to use as the value of that cell
                 newRow.append(newRowItem);//the cells are added to the row

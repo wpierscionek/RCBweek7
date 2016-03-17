@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var dataRef = new Firebase("https://howfayatrain.firebaseio.com/");
+	var database = new Firebase("https://howfayatrain.firebaseio.com/");
 
 	
 	$('#submit').on('click', function() {
@@ -10,7 +10,7 @@ $(document).ready(function() {
 	var frequency = $('#frequency').val().trim();
 
 		
-		dataRef.push({
+		database.push ({
 		name: trainId,
 		destination: destination,
 		frequency: frequency,
@@ -50,12 +50,12 @@ $(document).ready(function() {
 	};
 
 
-	dataRef.on('child_added', function(snapShot) {
+	database.on('child_added', function(snapshot) {
 
 
-		$(".table > tbody").append("<tr><td>" + snapShot.val().name + "</td><td>" + snapShot.val().destination +
-		 "</td><td>" + snapShot.val().frequency + "</td><td>" + snapShot.val().nextArrival + "</td><td>" + 
-		 snapShot.val().minutesAway + "</td></tr>");
+		$(".table > tbody").append("<tr><td>" + snapshot.val().name + "</td><td>" + snapshot.val().destination +
+		 "</td><td>" + snapshot.val().frequency + "</td><td>" + snapshot.val().nextArrival + "</td><td>" + 
+		 snapshot.val().minutesAway + "</td></tr>");
 		});
 
 	
